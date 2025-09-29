@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'signup_screen.dart';
+import 'dashboard_screen.dart';
+
 
 class LoginScreen extends StatefulWidget {
   static const route = '/signin';
@@ -32,34 +34,38 @@ class _LoginScreenState extends State<LoginScreen> {
         );
 
     // tombol biru dengan gradient (UI-only)
-    Widget primaryButton(String label, VoidCallback onTap) => GestureDetector(
-          onTap: onTap,
-          child: Container(
-            width: double.infinity,
-            height: 45,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(28),
-              gradient: const LinearGradient(
-                colors: [Color(0xFF1588FF), Color(0xFF2D70FF)],
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF1588FF).withOpacity(0.25),
-                  blurRadius: 18,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+Widget primaryButton({
+  required String label,
+  required VoidCallback onTap,
+}) =>
+    GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        height: 45,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(28),
+          gradient: const LinearGradient(
+            colors: [Color(0xFF1588FF), Color(0xFF2D70FF)],
           ),
-        );
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF1588FF).withOpacity(0.25),
+              blurRadius: 18,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Text(
+          label,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
 
     return Scaffold(
       body: SafeArea(
@@ -154,15 +160,33 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 14),
 
                       // Tombol Sign In
-                      primaryButton('Sign In Now', () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Sign In tapped')),
-                        );
-                      }),
+                      primaryButton(
+                        label: 'Sign In Now',
+                        onTap : () {
+                          // Cek apakah email atau password kosong
+                          if (_email.text.isEmpty || _pass.text.isEmpty) {
+                            // Jika ya, tampilkan notifikasi error
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    'Email dan Password tidak boleh kosong!'),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          } else {
+                            // Jika tidak, lanjutkan ke dashboard
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              DashboardScreen.route,
+                              (route) => false,
+                            );
+                          }
+                        },
+                      ),
                       const SizedBox(height: 14),
 
                       // Tombol Create Account
-                      Center(
+                       Center(
                         child: TextButton(
                           onPressed: () => Navigator.pushNamed(
                             context,
