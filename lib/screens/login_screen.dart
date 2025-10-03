@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'signup_screen.dart';
 import 'dashboard_screen.dart';
-
+import 'splash_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const route = '/signin';
@@ -34,38 +34,38 @@ class _LoginScreenState extends State<LoginScreen> {
         );
 
     // tombol biru dengan gradient (UI-only)
-Widget primaryButton({
-  required String label,
-  required VoidCallback onTap,
-}) =>
-    GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        height: 45,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(28),
-          gradient: const LinearGradient(
-            colors: [Color(0xFF1588FF), Color(0xFF2D70FF)],
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF1588FF).withOpacity(0.25),
-              blurRadius: 18,
-              offset: const Offset(0, 4),
+    Widget primaryButton({
+      required String label,
+      required VoidCallback onTap,
+    }) =>
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            width: double.infinity,
+            height: 45,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(28),
+              gradient: const LinearGradient(
+                colors: [Color(0xFF1588FF), Color(0xFF2D70FF)],
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF1588FF).withOpacity(0.25),
+                  blurRadius: 18,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Text(
-          label,
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
+            child: Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
-        ),
-      ),
-    );
+        );
 
     return Scaffold(
       body: SafeArea(
@@ -76,11 +76,7 @@ Widget primaryButton({
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Logo
-                Image.asset(
-                  'assets/logo-mola.png',
-                  height: 80,
-                  fit: BoxFit.contain,
-                ),
+                const JustduitLogo(),
                 const SizedBox(height: 18),
 
                 // Judul
@@ -162,7 +158,7 @@ Widget primaryButton({
                       // Tombol Sign In
                       primaryButton(
                         label: 'Sign In Now',
-                        onTap : () {
+                        onTap: () {
                           // Cek apakah email atau password kosong
                           if (_email.text.isEmpty || _pass.text.isEmpty) {
                             // Jika ya, tampilkan notifikasi error
@@ -177,7 +173,7 @@ Widget primaryButton({
                             // Jika tidak, lanjutkan ke dashboard
                             Navigator.pushNamedAndRemoveUntil(
                               context,
-                              DashboardScreen.route,
+                              SplashScreen.route,
                               (route) => false,
                             );
                           }
@@ -186,7 +182,7 @@ Widget primaryButton({
                       const SizedBox(height: 14),
 
                       // Tombol Create Account
-                       Center(
+                      Center(
                         child: TextButton(
                           onPressed: () => Navigator.pushNamed(
                             context,
@@ -210,3 +206,16 @@ Widget primaryButton({
   }
 }
 
+// Tambahkan widget reusable JustduitLogo di sini
+class JustduitLogo extends StatelessWidget {
+  const JustduitLogo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      'assets/logo-mola.png',
+      height: 80,
+      fit: BoxFit.contain,
+    );
+  }
+}
